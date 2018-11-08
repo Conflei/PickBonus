@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio for Mac
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pick Bonus", "Assembly-CSharp.csproj", "{ECAEA3AF-98FD-2FB3-AF09-9E74125A0EA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pick Bonus", "Assembly-CSharp-firstpass.csproj", "{E1AB9B72-6DC0-DB0A-AD70-B4BFE9181EE2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECAEA3AF-98FD-2FB3-AF09-9E74125A0EA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECAEA3AF-98FD-2FB3-AF09-9E74125A0EA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECAEA3AF-98FD-2FB3-AF09-9E74125A0EA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECAEA3AF-98FD-2FB3-AF09-9E74125A0EA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1AB9B72-6DC0-DB0A-AD70-B4BFE9181EE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1AB9B72-6DC0-DB0A-AD70-B4BFE9181EE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1AB9B72-6DC0-DB0A-AD70-B4BFE9181EE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1AB9B72-6DC0-DB0A-AD70-B4BFE9181EE2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
