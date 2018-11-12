@@ -55,6 +55,9 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("Start with Multiplier " + multiplier + "\nBet " + user.CurrentBet);
 
+        user.CurrentMoney = user.CurrentMoney - user.CurrentBet;
+        gameView.UpdateCurrentMoney();
+
         if (multiplier * user.CurrentBet <= 0f)
         {
             ZeroBasedGame();
@@ -79,15 +82,15 @@ public class GameController : MonoBehaviour
         while (!solution.GetChests())
             yield return null;
 
-        Debug.Log("-------FINAL CHESTS!-----");
+        //Debug.Log("-------FINAL CHESTS!-----");
         float finalSum = 0f;
         for (int i = 0; i < solution.winAmounts.Count; i++)
         {
             solution.winAmounts[i] = float.Parse(GameView.BeautifyF(solution.winAmounts[i]));
-            Debug.Log("FINAL CHEST #" + i + " PRIZE: " + solution.winAmounts[i]);
+           // Debug.Log("FINAL CHEST #" + i + " PRIZE: " + solution.winAmounts[i]);
             finalSum += solution.winAmounts[i];
         }
-        Debug.Log("Total " + finalSum +"\nAmount of iterations: "+solution.iterationsOnSolution);
+        //Debug.Log("Total " + finalSum +"\nAmount of iterations: "+solution.iterationsOnSolution);
     }
 
     public float FinalPrize(float multPerBet)
@@ -184,7 +187,21 @@ public class GameController : MonoBehaviour
 
     public void EndGame()
     {
-        //grid.UninteractableChests();
+        gameView.EndGame();
+        user.CurrentMoney = user.CurrentMoney + amountEarned;
+        gameView.UpdateCurrentMoney();
+    }
+
+    public void RestartGame()
+    {
+        StartCoroutine(RestartGameWorker());
+    }
+
+    public IEnumerator RestartGameWorker()
+    {
+        gameView.FadeIn();
+        yield return new WaitForSeconds(2f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
     #endregion

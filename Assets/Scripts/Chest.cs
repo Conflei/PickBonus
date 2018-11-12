@@ -17,6 +17,7 @@ public class Chest : MonoBehaviour {
     private int index;
 
     private GameGrid grid;
+    private Transform prizeLastPos;
 
     public void Init(bool isPooper, int index)
     {
@@ -24,6 +25,8 @@ public class Chest : MonoBehaviour {
         this.index = index;
         currentImage = this.gameObject.GetComponent<Image>();
         grid = this.transform.parent.GetComponent<GameGrid>();
+
+        prizeLastPos = this.transform.GetChild(1);
     }
 
     public void UserClick()
@@ -57,9 +60,16 @@ public class Chest : MonoBehaviour {
 
     public IEnumerator ShowPrizeAnimation(float prize)
     {
+
+        float multiplier = 1f;
+        if (prize > 1f) multiplier = 1.25f;
+        if (prize > 50f) multiplier = 1.5f;
         PrizeText.gameObject.SetActive(true);
-        PrizeText.text = "$" + GameView.BeautifyF(prize);
-        yield return new WaitForSeconds(2f);
+        PrizeText.text = "+$" + GameView.BeautifyF(prize);
+        iTween.ScaleTo(PrizeText.gameObject, iTween.Hash("scale", Vector3.one*multiplier, "time", 0.5f, "easeType", iTween.EaseType.easeOutExpo));
+        yield return new WaitForSeconds(0.5f);
+        iTween.MoveTo(PrizeText.gameObject, iTween.Hash("position", prizeLastPos.position, "time", 1.25f, "easeType", iTween.EaseType.easeInExpo));
+        yield return new WaitForSeconds(5f);
         PrizeText.gameObject.SetActive(false);
     }
 }
