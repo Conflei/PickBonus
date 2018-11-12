@@ -65,7 +65,7 @@
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
     <Compile Include="Assets\GameController.cs" />
     <Compile Include="Assets\GameGrid.cs" />
-    <Compile Include="Assets\IntroView.cs" />
+    <Compile Include="Assets\GameView.cs" />
     <Compile Include="Assets\SuperAshley\UIEffects\Scripts\UI\Effects\BaseBlockUIEffect.cs" />
     <Compile Include="Assets\SuperAshley\UIEffects\Scripts\UI\Effects\BaseUIEffect.cs" />
     <Compile Include="Assets\SuperAshley\UIEffects\Scripts\UI\Effects\ColorFade.cs" />

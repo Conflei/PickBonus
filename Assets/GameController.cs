@@ -12,7 +12,7 @@ public class GameController : MonoBehaviour
 {
 
     [SerializeField]
-    private IntroView introView;
+    private GameView gameView;
 
 
     [SerializeField]
@@ -24,14 +24,20 @@ public class GameController : MonoBehaviour
     int[] lowMultiplyers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
     int[] medMultiplyers = { 12, 16, 24, 32, 48, 64 };
     int[] highMultiplyers = { 100, 200, 300, 400, 500 };
+
     private int multiplier;
     private float bet;
+    private int chestsOpened;
+    private float amountEarned;
+
+    private ChestSolution solution;
 
     // Use this for initialization
     void Start()
     {
+        amountEarned = 0f;
         multiplier = SelectMultiplier();
-
+        Debug.Log("M = " + multiplier);
         this.user = new User();
         grid.Init();
     }
@@ -40,15 +46,36 @@ public class GameController : MonoBehaviour
 
     public void StartGame()
     {
-        //introViewGO.SetActive(false);
-        Debug.Log("Start with Multiplier " + multiplier + "\nBet "+user.CurrentBet);
 
-        StartCoroutine(GetSolution());
+        StartCoroutine(StartGameWorker());
+       
     }
 
-    public IEnumerator GetSolution()
+    public IEnumerator StartGameWorker()
     {
-        ChestSolution solution = new ChestSolution(multiplier * user.CurrentBet);
+        Debug.Log("Start with Multiplier " + multiplier + "\nBet " + user.CurrentBet);
+
+        if (multiplier * user.CurrentBet <= 0f)
+        {
+            ZeroBasedGame();
+            yield return null;
+        }
+        else
+        {
+            yield return StartCoroutine(GetSolution(FinalPrize(multiplier * user.CurrentBet)));
+        }
+
+    }
+
+    public void ZeroBasedGame()
+    {
+        solution = new ChestSolution(0f);
+        solution.ZeroSolution();
+    }
+
+    public IEnumerator GetSolution(float f)
+    {
+        solution = new ChestSolution(f);
         while (!solution.GetChests())
             yield return null;
 
@@ -56,11 +83,20 @@ public class GameController : MonoBehaviour
         float finalSum = 0f;
         for (int i = 0; i < solution.winAmounts.Count; i++)
         {
+            solution.winAmounts[i] = float.Parse(GameView.BeautifyF(solution.winAmounts[i]));
             Debug.Log("FINAL CHEST #" + i + " PRIZE: " + solution.winAmounts[i]);
             finalSum += solution.winAmounts[i];
         }
         Debug.Log("Total " + finalSum +"\nAmount of iterations: "+solution.iterationsOnSolution);
     }
+
+    public float FinalPrize(float multPerBet)
+    {
+        return multPerBet;
+        //return (multPerBet < 1.8f ? 1.8f : multPerBet);
+    }
+
+    
 
     #endregion
 
@@ -106,7 +142,7 @@ public class GameController : MonoBehaviour
 
             }
         }
-        Debug.Log(arrayToUse);
+
         switch (arrayToUse)
         {
             case 0:
@@ -125,20 +161,26 @@ public class GameController : MonoBehaviour
         return multiplier;
     }
 
-    /// <summary>
-    /// Gets the prize. In this method I already made all the calculations using compound probabilities
-    /// There's 1/9 chances to get a pooper = 0.111
-    ///  50% Chance to get a ZEROMULTY if is NOT A POOPER => NOT A POOPER (0.889) * ISZEROMULTY (0.5) = 0.444
-    ///  30% Chance to get a LOWMULTY if is NOT A POOPER => NOT A POOPER (0.889) * ISLOWMULTY (0.333) = 0.296
-    ///  15% Chance to get a MEDMULTY if is NOT A POOPER => NOT A POOPER (0.889) * ISMEDMULTY (0.15) = 0.133
-    ///  5% Chance to get a HIGHMULTY if is NOT A POOPER => NOT A POOPER (0.889) * ISMEDMULTY (0.05) = 0.044
-    /// </summary>
-    /// <returns>The prize.</returns>
-    public int GetPrize()
-    {
 
-        return 0;
+
+    public float NextPrize()
+    {
+        float prize = solution.winAmounts[chestsOpened];
+        amountEarned += prize;
+        gameView.ChangePrizeText(amountEarned);
+        chestsOpened++;
+
+
+        if (prize <= 0f) grid.EveryonePooper();
+
+        return prize;
     }
+
+    public void PooperSelected()
+    {
+        grid.EndGame();
+    }
+
     #endregion
 
 }
@@ -162,7 +204,7 @@ public class User
         CurrentBet = StartingBet;
 
 
-        Debug.Log("User Created");
+
     }
 
 
@@ -190,7 +232,7 @@ public class User
 
     public string IncreaseBet()
     {
-        Debug.Log("Increase: " + Trunc(CurrentBet).ToString());
+
         switch (Trunc(CurrentBet).ToString())
         {
             case "0.25":
@@ -206,7 +248,7 @@ public class User
                 CurrentBet = 5.0f;
                 break;
         }
-        Debug.Log("C" + CurrentBet);
+
 
         return FF(CurrentBet);
     }
@@ -216,7 +258,7 @@ public class User
         return Mathf.Round(f * 100f) / 100f;
     }
 
-    static string FF(float f)//Final Float To Show
+    static string FF(float f)//Final Float To Show On the Bet
     {
         string finalFloat = "";
 
