@@ -60,12 +60,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Chest.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
-    <Compile Include="Assets\GameController.cs" />
-    <Compile Include="Assets\GameGrid.cs" />
-    <Compile Include="Assets\GameView.cs" />
+    <Compile Include="Assets\Scripts\Chest.cs" />
+    <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\GameGrid.cs" />
+    <Compile Include="Assets\Scripts\GameView.cs" />
     <Compile Include="Assets\SuperAshley\UIEffects\Scripts\UI\Effects\BaseBlockUIEffect.cs" />
     <Compile Include="Assets\SuperAshley\UIEffects\Scripts\UI\Effects\BaseUIEffect.cs" />
     <Compile Include="Assets\SuperAshley\UIEffects\Scripts\UI\Effects\ColorFade.cs" />
