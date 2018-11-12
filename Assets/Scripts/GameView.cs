@@ -24,6 +24,9 @@ public class GameView : MonoBehaviour
     private Text currentPrize;
 
     [SerializeField]
+    private Text lastGameWin;
+
+    [SerializeField]
     private CanvasGroup startUICG;
 
     [Header("Game View UI")]
@@ -67,6 +70,7 @@ public class GameView : MonoBehaviour
         currentPrize.text = "Current Prize: 0";
         walletText.text = "$ " + BeautifyF(gameController.user.CurrentMoney);
         betText.text = "$ " + gameController.user.CurrentBet;
+        lastGameWin.text = "$ " + (PlayerPrefs.GetString("LastGame")==""?"0.00": PlayerPrefs.GetString("LastGame"));
     }
 
     public void UpdateCurrentMoney()
@@ -126,6 +130,7 @@ public class GameView : MonoBehaviour
     public void ChangePrizeText(float f)
     {
         currentPrize.text = "Current Prize: $"+BeautifyF(f);
+        PlayerPrefs.SetString("LastGame", BeautifyF(f));
         StartCoroutine(BouncePrize());
     }
 

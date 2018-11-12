@@ -131,7 +131,7 @@ public class ChestSolution
             int i = 0;
             while(aux>0f)
             {
-                Debug.Log(aux + " " + possibleEntries[i]);
+               // Debug.Log(aux + " " + possibleEntries[i]);
                 if(aux-possibleEntries[i]<0f){
 
                 }else{
